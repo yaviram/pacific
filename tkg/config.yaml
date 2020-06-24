@@ -1,0 +1,48 @@
+# Obsolete. Please use '-k' or '--kubernetes-version' to override the default kubernetes version
+KUBERNETES_VERSION: v1.16.8---vmware.1-tkg.3.60d2ffd
+CONTROL_PLANE_STORAGE_CLASS: gold-storage-policy
+WORKER_STORAGE_CLASS: gold-storage-policy
+DEFAULT_STORAGE_CLASS: gold-storage-policy
+STORAGE_CLASSES: gold-storage-policy,vsan-default-storage-policy
+SERVICE_DOMAIN: corp.local
+CONTROL_PLANE_VM_CLASS: best-effort-xsmall
+WORKER_VM_CLASS: best-effort-xsmall
+SERVICE_CIDR: 100.64.0.0/13
+CLUSTER_CIDR: 100.96.0.0/11
+overridesFolder: /root/.tkg/overrides
+providers:
+  - name: cluster-api
+    url: /root/.tkg/providers/cluster-api/v0.3.5/core-components.yaml
+    type: CoreProvider
+  - name: aws
+    url: /root/.tkg/providers/infrastructure-aws/v0.5.3/infrastructure-components.yaml
+    type: InfrastructureProvider
+  - name: vsphere
+    url: /root/.tkg/providers/infrastructure-vsphere/v0.6.4/infrastructure-components.yaml
+    type: InfrastructureProvider
+  - name: tkg-service-vsphere
+    url: /root/.tkg/providers/infrastructure-tkg-service-vsphere/v1.0.0/unused.yaml
+    type: InfrastructureProvider
+  - name: kubeadm
+    url: /root/.tkg/providers/bootstrap-kubeadm/v0.3.5/bootstrap-components.yaml
+    type: BootstrapProvider
+  - name: kubeadm
+    url: /root/.tkg/providers/control-plane-kubeadm/v0.3.5/control-plane-components.yaml
+    type: ControlPlaneProvider
+images:
+    all:
+        repository: registry.tkg.vmware.run/cluster-api
+    cert-manager:
+        repository: registry.tkg.vmware.run/cert-manager
+        tag: v0.11.0_vmware.1
+tkg:
+    regions:
+      - name: 10.23.192.2
+        context: 10.23.192.2
+        file: /root/.kube-tkg/config
+        isCurrentContext: false
+    current-region-context: 10.23.192.2
+cert-manager-timeout: 30m0s
+NODE_STARTUP_TIMEOUT: 20m
+release:
+    version: v1.1.0
